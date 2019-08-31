@@ -1,0 +1,90 @@
+{
+    "status": "OK",
+    "data": {
+        "wans": [
+            {
+                "status": "OK",
+                "label": "wan1",
+                "gateway": "192.168.8.1",
+                "ipaddr": "192.168.8.128",
+                "wanip": "223.90.102.31",
+                "latency": "101",
+                "mtu": "1500",
+                "multipath": "on",
+                "country": "China",
+                "countryCode": "CN",
+                "region": "HA",
+                "regionName": "Henan",
+                "city": "Xinyang",
+                "zip": "",
+                "lat": 32.1228,
+                "lon": 114.0656,
+                "timezone": "Asia/Shanghai",
+                "isp": "China Mobile communications corporation",
+                "org": "China Mobile",
+                "as": "AS24445 AS24445"
+            },
+            {
+                "status": "ERROR",
+                "label": "wan2",
+                "gateway": "",
+                "ipaddr": "",
+                "wanip": "106.34.201.87",
+                "latency": "",
+                "mtu": "",
+                "multipath": "on",
+                "country": "China",
+                "countryCode": "CN",
+                "region": "HA",
+                "regionName": "Henan",
+                "city": "Zhengzhou",
+                "zip": "",
+                "lat": 34.6836,
+                "lon": 113.5325,
+                "timezone": "Asia/Shanghai",
+                "isp": "Chinanet",
+                "org": "Chinanet HN",
+                "as": "AS4134 No.31,Jin-rong Street"
+            },
+            {
+                "status": "ERROR",
+                "label": "wan3",
+                "gateway": "",
+                "ipaddr": "",
+                "wanip": "117.136.67.74",
+                "latency": "",
+                "mtu": "",
+                "multipath": "on",
+                "country": "China",
+                "countryCode": "CN",
+                "region": "JS",
+                "regionName": "Jiangsu",
+                "city": "Changzhou",
+                "zip": "",
+                "lat": 31.7736,
+                "lon": 119.954,
+                "timezone": "Asia/Shanghai",
+                "isp": "China Mobile communications corporation",
+                "org": "China Mobile",
+                "as": "AS56046 China Mobile Communications Corporation"
+            }
+        ],
+        "client": {
+            "ip": "127.0.0.1"
+        },
+        "router": {
+            "name": "ANT_ROUTE",
+            "ip": "192.168.100.1",
+            "version": "0.51.5",
+            "load": "0.16 0.18 0.21",
+            "uptime": "22h 35m 17s",
+            "lan_addr": "192.168.100.1",
+            "lan_range": "192.168.100.100-192.168.100.249"
+        },
+        "server": {
+            "name": "OpenMPTCProuter Server",
+            "version": "0.999",
+            "status": "UP"
+        }
+    }
+}

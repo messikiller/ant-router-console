@@ -1,0 +1,16 @@
+{
+    "status": "OK",
+    "data": {
+        "timestamp":1567213391,
+        "stats":{
+            "eth1":{
+                "upload":59689455,
+                "download":69689455
+            },
+            "usb0":{
+                "upload":19689455,
+                "download":29689455
+            }
+        }
+    }
+}
