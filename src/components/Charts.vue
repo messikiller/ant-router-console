@@ -39,6 +39,10 @@
                     {
                         name: '最大值',
                         type: 'max'
+                    },
+                    {
+                        name: '最小值',
+                        type: 'min'
                     }
                 ]
             }
