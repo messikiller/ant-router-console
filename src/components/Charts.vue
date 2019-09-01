@@ -62,9 +62,10 @@
         },
         computed:{
             chartDataUp (){
+                let returnObj = {}
                 if (this.thisType == 'all'){
                     this.chartSettings.metrics = this.columns
-                    return {
+                    returnObj = {
                         columns:this.columns,
                         rows:this.dataUp
                     }
@@ -77,16 +78,21 @@
                         arr.push(obj)
                     }
                     this.chartSettings.metrics = [ this.thisType ]
-                    return {
+                    returnObj = {
                         columns:[this.thisType],
                         rows:arr
                     }
                 } 
+                if (returnObj.rows.length > 100){
+                    returnObj.rows.shift();
+                }
+                return returnObj
             },
             chartDataDown (){
+                let returnObj = {}
                 if (this.thisTypeDown == 'all'){
                     this.chartSettings.metrics = this.columnsDown
-                    return {
+                    returnObj = {
                         columns:this.columnsDown,
                         rows:this.dataDown
                     }
@@ -99,11 +105,15 @@
                         arr.push(obj)
                     }
                     this.chartSettings.metrics = [ this.thisTypeDown ]
-                    return {
+                    returnObj =  {
                         columns:[this.thisTypeDown],
                         rows:arr
                     }
                 } 
+                if (returnObj.rows.length > 100){
+                    returnObj.rows.shift();
+                }
+                return returnObj
             }
         },
         methods:{
