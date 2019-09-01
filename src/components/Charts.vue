@@ -157,7 +157,9 @@
             },
             getData (){
                 setTimeout(()=>{
-                    getChartsData({},(res)=>{
+                    getChartsData({
+                        ip: '47.56.9.1:829'
+                    },(res)=>{
                         if (res.status == 'OK'){
                             var tmp = new Date();
                             res.data.timestamp = tmp;

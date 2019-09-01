@@ -45,13 +45,15 @@
                             <img v-if="item.status == 'WARNING'" class="mark" src="../assets/warning.png"/>
                             <div class="info">
                                 <p class="title">{{item.label}}({{item.gateway}})</p>
-                                <!-- <p>Status：{{item.wanip_info.status}}</p>
-                                <p>country：{{item.wanip_info.country}}</p>
-                                <p>regionName：{{item.wanip_info.regionName}}</p>
-                                <p>city：{{item.wanip_info.city}}</p>
-                                <p>district：{{item.wanip_info.district}}</p>
-                                <p>isp：{{item.wanip_info.isp}}</p>
-                                <p>whois：{{item.whois}}</p> -->
+                                <p>country：{{item.country}}</p>
+                                <p>regionName：{{item.regionName}}</p>
+                                <p>city：{{item.city}}</p>
+                                <p>district：{{item.district}}</p>
+                                <p>isp：{{item.isp}}</p>
+                                <p>org：{{item.org}}</p>
+                                <p>zip：{{item.zip}}</p>
+                                <p>timezone：{{item.timezone}}</p>
+                                <!-- <p>whois：{{item.whois}}</p> -->
                             </div>
                         </div>
                     </div>
@@ -111,7 +113,9 @@
             }
         },
         created (){
-            getServerData({},(res)=>{
+            getServerData({
+                ip: '47.56.9.1:829'
+            },(res)=>{
                 if (res.status == 'OK'){
                     // console.log(res.data)
                     this.data = res.data;
