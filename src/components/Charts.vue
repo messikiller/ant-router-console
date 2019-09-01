@@ -6,24 +6,42 @@
             <div @click="choose('all')" class="button" :class="{active:thisType == 'all'}">all</div>
             <div @click="choose(item)" class="button" :class="{active:thisType == item}" v-for="(item,index) in columns" :key="index">{{item}}</div>
         </div>
-        <ve-line :data-zoom="dataZoom" :data="chartDataUp" :settings="chartSettings" :extend="extend" ></ve-line>
+        <ve-line :mark-line="markLine" :mark-point="markPoint" :data-zoom="dataZoom" :data="chartDataUp" :settings="chartSettings" :extend="extend" ></ve-line>
 
         <p class="title">Download</p>
         <div class="buttons">
             <div @click="chooseDown('all')" class="button" :class="{active:thisTypeDown == 'all'}">all</div>
             <div @click="chooseDown(item)" class="button" :class="{active:thisTypeDown == item}" v-for="(item,index) in columnsDown" :key="index">{{item}}</div>
         </div>
-        <ve-line :data-zoom="dataZoom" :data="chartDataDown" :settings="chartSettings" :extend="extend" ></ve-line>
+        <ve-line :mark-line="markLine" :mark-point="markPoint" :data-zoom="dataZoom" :data="chartDataDown" :settings="chartSettings" :extend="extend" ></ve-line>
     </div>
 </template>
 
 <script>
     import 'echarts/lib/component/dataZoom'
+    import 'echarts/lib/component/markLine'
+    import 'echarts/lib/component/markPoint'
     import { getChartsData } from '../tools/api'
     import { GetQueryString } from '../tools/utils'
 
     export default {
         data () {
+            this.markLine = {
+                data: [
+                    {
+                        name: '平均线',
+                        type: 'average'
+                    }
+                ]
+            }
+            this.markPoint = {
+                data: [
+                    {
+                        name: '最大值',
+                        type: 'max'
+                    }
+                ]
+            }
             this.chartSettings = {
                 metrics: [],
                 dimension: ['time'],
