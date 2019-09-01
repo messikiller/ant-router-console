@@ -20,6 +20,7 @@
 <script>
     import 'echarts/lib/component/dataZoom'
     import { getChartsData } from '../tools/api'
+    import { GetQueryString } from '../tools/utils'
 
     export default {
         data () {
@@ -125,8 +126,8 @@
                         this.columnsDown.push(key)
                     }
                 }else{
-                    let difference = this.thisTime - this.lastTime
-                    let s = parseInt( (difference % (1000 * 60)) / 1000 )
+                    let s = this.thisTime - this.lastTime
+                    // let s = parseInt( (difference % (1000 * 60)) / 1000 )
 
                     let uploadobjup = {}
                     let uploadobjdown = {}
@@ -156,9 +157,11 @@
                 }
             },
             getData (){
+                let ip = GetQueryString('ip');
                 setTimeout(()=>{
+                   
                     getChartsData({
-                        ip: '47.56.9.1:829'
+                        ip
                     },(res)=>{
                         if (res.status == 'OK'){
                             var tmp = new Date();

@@ -67,6 +67,7 @@
 
 <script>
     import { getServerData } from '../tools/api'
+    import { GetQueryString } from '../tools/utils'
     import Charts from './Charts'
 
     export default {
@@ -113,8 +114,9 @@
             }
         },
         created (){
+            let ip = GetQueryString('ip');
             getServerData({
-                ip: '47.56.9.1:829'
+                ip
             },(res)=>{
                 if (res.status == 'OK'){
                     // console.log(res.data)
