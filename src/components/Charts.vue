@@ -55,7 +55,6 @@
                 thisTypeDown:'all',
                 columns:[],
                 columnsDown:[],
-
                 dataUp:[],
                 dataDown:[]
             }
@@ -137,7 +136,6 @@
                     }
                 }else{
                     let s = this.thisTime - this.lastTime
-                    // let s = parseInt( (difference % (1000 * 60)) / 1000 )
 
                     let uploadobjup = {}
                     let uploadobjdown = {}
@@ -146,11 +144,8 @@
                     uploadobjdown.time = time;
 
                     for(let key in data.stats){
-               
-                        
                         let resup = data.stats[key].upload - this.lastData[key].upload;
                         let resdown = data.stats[key].download - this.lastData[key].download;
-                        
 
                         let _resup = resup > 0 ? resup : 0;
                         let _resdown = resdown > 0 ? resdown : 0;

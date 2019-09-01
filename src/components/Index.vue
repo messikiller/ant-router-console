@@ -17,6 +17,7 @@
                         <img class="mark" src="../assets/server.png"/>
                         <div class="info">
                             <p class="title">{{data.server.name}}</p>
+                            <p>status：{{data.server.status}}</p>
                             <p>version：{{data.server.version}}</p>
                         </div>
                     </div>
@@ -44,16 +45,12 @@
                             <img v-if="item.status == 'ERROR'" class="mark" src="../assets/error.png"/>
                             <img v-if="item.status == 'WARNING'" class="mark" src="../assets/warning.png"/>
                             <div class="info">
-                                <p class="title">{{item.label}}({{item.gateway}})</p>
-                                <p>country：{{item.country}}</p>
-                                <p>regionName：{{item.regionName}}</p>
-                                <p>city：{{item.city}}</p>
-                                <p>district：{{item.district}}</p>
-                                <p>isp：{{item.isp}}</p>
-                                <p>org：{{item.org}}</p>
-                                <p>zip：{{item.zip}}</p>
-                                <p>timezone：{{item.timezone}}</p>
-                                <!-- <p>whois：{{item.whois}}</p> -->
+                                <p class="title">{{item.label}}({{item.ipaddr}})</p>
+                                <p>wan ip: {{item.wanip}}</p>
+                                <p>mtu: {{item.mtu}}</p>
+                                <p>latency: {{item.latency}} ms</p>
+                                <p>aggregate: {{item.aggregate}}</p>
+                                <p>{{item.wan_info}}</p>
                             </div>
                         </div>
                     </div>
