@@ -42,7 +42,7 @@
             this.dataZoom = [
                 {
                     type: 'slider',
-                    start: 50,
+                    start: 0,
                     end: 100,
                     
                 }
