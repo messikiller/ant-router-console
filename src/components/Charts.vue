@@ -145,7 +145,8 @@
                 this.thisTypeDown = type;
             },
             changeData (data){
-                let time = this.$moment(data.timestamp).format("HH:mm:ss");  
+                let time = this.$moment(data.timestamp).format("HH:mm:ss");
+                console.log(time)
                 this.lastTime = this.thisTime;
                 this.thisTime = data.timestamp;
 
@@ -195,7 +196,7 @@
                         ip
                     },(res)=>{
                         if (res.status == 'OK'){
-                            var tmp = new Date();
+                            let tmp = new Date(res.data.timestamp * 1000);
                             res.data.timestamp = tmp;
                             this.changeData(res.data);
                             this.getData();
@@ -203,7 +204,7 @@
                             alert(res.status)
                         }
                     })
-                },10000)
+                },1000)
                 
             }
         },
