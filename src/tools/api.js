@@ -40,6 +40,11 @@ export const getChartsData = (params,cb) => {
     get('/api/get_eth_info.php',params,cb)
 }
 
+export const restartRouting = (params,cb) => {
+    get('/api/restart_router.php',params,cb)
+}
+
+
 
 
 

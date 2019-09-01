@@ -22,7 +22,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="routeBox">
+                <div class="routeBox" @click="restartRoutingFn()">
                     <div class="line"></div>
                     <div class="wrap">
                         <img class="mark" src="../assets/route.png"/>
@@ -63,7 +63,7 @@
 </template>
 
 <script>
-    import { getServerData } from '../tools/api'
+    import { getServerData,restartRouting } from '../tools/api'
     import { GetQueryString } from '../tools/utils'
     import Charts from './Charts'
 
@@ -87,6 +87,19 @@
             } 
         },
         methods:{
+            restartRoutingFn (){
+                let r = confirm("是否重载所有网络?");
+                if ( r == true ){
+                    let ip = GetQueryString('ip');
+                    restartRouting({ip},(res)=>{
+                        alert('重启成功');
+                        setTimeout(()=>{
+                            location.reload();
+                        },1000)
+                    })
+                }
+
+            },
             calculationH (){
                 setTimeout(()=>{
                     if (this.data.wans && this.data.wans.length > 0){
