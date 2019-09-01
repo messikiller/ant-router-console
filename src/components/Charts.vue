@@ -35,7 +35,7 @@
             this.extend = {
                 yAxis:{
                     axisLabel:{
-                        formatter:'{value}Kb/s'
+                        formatter:'{value}Mbit/s'
                     }
                 }
             }
@@ -151,11 +151,14 @@
                         let _resup = resup > 0 ? resup : 0;
                         let _resdown = resdown > 0 ? resdown : 0;
 
-                        let uploadkb_up = _resup / 1024;
-                        let uploadkb_down = _resdown / 1024;
+                        let uploadkb_up = _resup * 8 / 1024 / 1024;
+                        let uploadkb_down = _resdown * 8 / 1024 / 1024;
 
-                        uploadobjup[key] = uploadkb_up / _s;
-                        uploadobjdown[key] = uploadkb_down / _s;
+                        let _uploadkb_up = uploadkb_up.toFixed(2);
+                        let _uploadkb_down = uploadkb_down.toFixed(2);
+
+                        uploadobjup[key] = _uploadkb_up / _s;
+                        uploadobjdown[key] = _uploadkb_down / _s;
 
                     }
                     this.dataUp.push(uploadobjup)
