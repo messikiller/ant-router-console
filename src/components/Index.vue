@@ -19,6 +19,8 @@
                             <p class="title">{{data.server.name}}</p>
                             <p>status：{{data.server.status}}</p>
                             <p>version：{{data.server.version}}</p>
+                            <p>load：{{data.server.load}}</p>
+                            <p>uptime：{{data.server.uptime}}</p>
                         </div>
                     </div>
                 </div>
@@ -29,6 +31,7 @@
                         <div class="info">
                             <p class="title">{{data.router.name}}({{data.router.ip}})</p>
                             <p>Version：{{data.router.version}}</p>
+                            <p>Core Temp：{{data.router.core_temp}}℃</p>
                             <p>Load：{{data.router.load}}</p>
                             <p>Uptime：{{data.router.uptime}}</p>
                             <p>Lan address：{{data.router.lan_addr}}</p>
@@ -141,7 +144,7 @@
             this.getData();
             setInterval(()=>{
                 this.getData();
-            },40000)
+            }, 20000)
         },
         mounted (){
             window.onresize = () => {

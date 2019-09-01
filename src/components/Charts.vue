@@ -32,9 +32,22 @@
                         name: '平均线',
                         type: 'average'
                     }
-                ]
+                ],
+                label: {
+                    normal: {
+                        position: 'start',
+                    },
+                    formatter: function (data){
+                        return data.value.toFixed(3);
+                    }
+                }
             }
             this.markPoint = {
+                label:{
+                    formatter: function (data){
+                        return data.value.toFixed(3);
+                    }
+                },
                 data: [
                     {
                         name: '最大值',
@@ -146,7 +159,6 @@
             },
             changeData (data){
                 let time = this.$moment(data.timestamp).format("HH:mm:ss");
-                console.log(time)
                 this.lastTime = this.thisTime;
                 this.thisTime = data.timestamp;
 
@@ -174,8 +186,8 @@
                         let _resup = resup > 0 ? resup : 0;
                         let _resdown = resdown > 0 ? resdown : 0;
 
-                        let uploadkb_up = _resup * 8 / 1024 / 1024;
-                        let uploadkb_down = _resdown * 8 / 1024 / 1024;
+                        let uploadkb_up = _resup / 1024 / 1024;
+                        let uploadkb_down = _resdown / 1024 / 1024;
 
                         let _uploadkb_up = uploadkb_up.toFixed(2);
                         let _uploadkb_down = uploadkb_down.toFixed(2);
@@ -204,7 +216,7 @@
                             alert(res.status)
                         }
                     })
-                },1000)
+                }, 3000)
                 
             }
         },
