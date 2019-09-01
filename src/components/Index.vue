@@ -121,21 +121,27 @@
                     }
                     this.wanBoxMaxH = max + 10;
                 }
+            },
+            getData (){
+                let ip = GetQueryString('ip');
+                getServerData({
+                    ip
+                },(res)=>{
+                    if (res.status == 'OK'){
+                        // console.log(res.data)
+                        this.data = res.data;
+                        this.calculationH();
+                    }else{
+                        alert(res.status)
+                    }
+                }) 
             }
         },
         created (){
-            let ip = GetQueryString('ip');
-            getServerData({
-                ip
-            },(res)=>{
-                if (res.status == 'OK'){
-                    // console.log(res.data)
-                    this.data = res.data;
-                    this.calculationH();
-                }else{
-                    alert(res.status)
-                }
-            }) 
+            this.getData();
+            setInterval(()=>{
+                this.getData();
+            },40000)
         },
         mounted (){
             window.onresize = () => {
