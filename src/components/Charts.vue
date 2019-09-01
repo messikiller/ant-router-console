@@ -136,6 +136,7 @@
                     }
                 }else{
                     let s = this.thisTime - this.lastTime
+                    let _s = parseInt(s/1000);
 
                     let uploadobjup = {}
                     let uploadobjdown = {}
@@ -153,8 +154,8 @@
                         let uploadkb_up = _resup / 1024;
                         let uploadkb_down = _resdown / 1024;
 
-                        uploadobjup[key] = uploadkb_up / s;
-                        uploadobjdown[key] = uploadkb_down / s;
+                        uploadobjup[key] = uploadkb_up / _s;
+                        uploadobjdown[key] = uploadkb_down / _s;
 
                     }
                     this.dataUp.push(uploadobjup)
