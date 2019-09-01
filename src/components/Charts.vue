@@ -29,7 +29,7 @@
                 dimension: ['time'],
                 area: true,
                 showDataZoom:true,
-                start: 20,
+                start: 0,
                 end: 100
             }
             this.extend = {
@@ -42,8 +42,8 @@
             this.dataZoom = [
                 {
                     type: 'slider',
-                    start: 0,
-                    end: 20,
+                    start: 50,
+                    end: 100,
                     
                 }
             ]
