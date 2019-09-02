@@ -208,7 +208,8 @@
                         ip
                     },(res)=>{
                         if (res.status == 'OK'){
-                            let tmp = new Date(res.data.timestamp * 1000);
+                            // let tmp = new Date(res.data.timestamp * 1000);
+                            let tmp = new Date();
                             res.data.timestamp = tmp;
                             this.changeData(res.data);
                             this.getData();
