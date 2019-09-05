@@ -7,7 +7,7 @@ function success (res,cb){
 }
 //请求失败
 function error (text){
-    console.log(text)
+    alert('设备未在线')
 }
 
 function post (url,params,cb,noStringify = null){

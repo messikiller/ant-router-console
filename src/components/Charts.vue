@@ -6,14 +6,14 @@
             <div @click="choose('all')" class="button" :class="{active:thisType == 'all'}">all</div>
             <div @click="choose(item)" class="button" :class="{active:thisType == item}" v-for="(item,index) in columns" :key="index">{{item}}</div>
         </div>
-        <ve-line :mark-line="markLine" :mark-point="markPoint" :data-zoom="dataZoom" :data="chartDataUp" :settings="chartSettings" :extend="extend" ></ve-line>
+        <ve-line :not-set-unchange="['dataZoom']" :mark-line="markLine" :mark-point="markPoint" :data-zoom="dataZoom" :data="chartDataUp" :settings="chartSettings" :extend="extend" ></ve-line>
 
         <p class="title">Download</p>
         <div class="buttons">
             <div @click="chooseDown('all')" class="button" :class="{active:thisTypeDown == 'all'}">all</div>
             <div @click="chooseDown(item)" class="button" :class="{active:thisTypeDown == item}" v-for="(item,index) in columnsDown" :key="index">{{item}}</div>
         </div>
-        <ve-line :mark-line="markLine" :mark-point="markPoint" :data-zoom="dataZoom" :data="chartDataDown" :settings="chartSettings" :extend="extend" ></ve-line>
+        <ve-line :not-set-unchange="['dataZoom']" :mark-line="markLine" :mark-point="markPoint" :data-zoom="dataZoom" :data="chartDataDown" :settings="chartSettings" :extend="extend" ></ve-line>
     </div>
 </template>
 
@@ -70,7 +70,7 @@
             this.extend = {
                 yAxis:{
                     axisLabel:{
-                        formatter:'{value}Mbit/s'
+                        formatter:'{value}Kbit/s'
                     }
                 }
             }
@@ -159,46 +159,45 @@
             },
             changeData (data){
                 let time = this.$moment(data.timestamp).format("HH:mm:ss");
-                this.lastTime = this.thisTime;
-                this.thisTime = data.timestamp;
+                // this.lastTime = this.thisTime;
+                // this.thisTime = data.timestamp;
 
-                if (this.lastTime == 0){
-                    //first
-                    this.lastData = data.stats;
-                    for (let key in data.stats){
-                        this.columns.push(key)
-                        this.columnsDown.push(key)
-                    }
-                }else{
-                    let s = this.thisTime - this.lastTime
-                    let _s = parseInt(s/1000);
-
-                    let uploadobjup = {}
-                    let uploadobjdown = {}
-
-                    uploadobjup.time = time;
-                    uploadobjdown.time = time;
-
-                    for(let key in data.stats){
-                        let resup = data.stats[key].upload - this.lastData[key].upload;
-                        let resdown = data.stats[key].download - this.lastData[key].download;
-
-                        let _resup = resup > 0 ? resup : 0;
-                        let _resdown = resdown > 0 ? resdown : 0;
-
-                        let uploadkb_up = _resup / 1024 / 1024;
-                        let uploadkb_down = _resdown / 1024 / 1024;
-
-                        let _uploadkb_up = uploadkb_up.toFixed(2);
-                        let _uploadkb_down = uploadkb_down.toFixed(2);
-
-                        uploadobjup[key] = _uploadkb_up / _s;
-                        uploadobjdown[key] = _uploadkb_down / _s;
-
-                    }
-                    this.dataUp.push(uploadobjup)
-                    this.dataDown.push(uploadobjdown)
+                // if (this.lastTime == 0){
+                //     //first
+                //     this.lastData = data.stats;
+                for (let key in data.stats){
+                    this.columns.push(key)
+                    this.columnsDown.push(key)
                 }
+                // }else{
+                //     let s = this.thisTime - this.lastTime
+                //     let _s = parseInt(s/1000);
+
+                let uploadobjup = {}
+                let uploadobjdown = {}
+
+                uploadobjup.time = time;
+                uploadobjdown.time = time;
+
+                for(let key in data.stats){
+                //         let resup = data.stats[key].upload - this.lastData[key].upload;
+                //         let resdown = data.stats[key].download - this.lastData[key].download;
+
+                //         let _resup = resup > 0 ? resup : 0;
+                //         let _resdown = resdown > 0 ? resdown : 0;
+
+                //         let uploadkb_up = _resup / 1024 / 1024;
+                //         let uploadkb_down = _resdown / 1024 / 1024;
+
+                //         let _uploadkb_up = uploadkb_up.toFixed(2);
+                //         let _uploadkb_down = uploadkb_down.toFixed(2);
+
+                    uploadobjup[key] = data.stats[key].upload;
+                    uploadobjdown[key] = data.stats[key].download;
+                }
+                this.dataUp.push(uploadobjup)
+                this.dataDown.push(uploadobjdown)
+                //}
             },
             getData (){
                 let ip = GetQueryString('ip');
@@ -208,8 +207,8 @@
                         ip
                     },(res)=>{
                         if (res.status == 'OK'){
-                            // let tmp = new Date(res.data.timestamp * 1000);
-                            let tmp = new Date();
+                            let tmp = new Date(res.data.timestamp * 1000);
+                            //let tmp = new Date();
                             res.data.timestamp = tmp;
                             this.changeData(res.data);
                             this.getData();
