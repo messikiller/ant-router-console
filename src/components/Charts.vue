@@ -165,10 +165,13 @@
                 // if (this.lastTime == 0){
                 //     //first
                 //     this.lastData = data.stats;
-                for (let key in data.stats){
-                    this.columns.push(key)
-                    this.columnsDown.push(key)
+                if (this.columns.length == 0){
+                    for (let key in data.stats){
+                        this.columns.push(key)
+                        this.columnsDown.push(key)
+                    }
                 }
+                
                 // }else{
                 //     let s = this.thisTime - this.lastTime
                 //     let _s = parseInt(s/1000);
