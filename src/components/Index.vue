@@ -129,6 +129,12 @@
                     this.wanBoxMaxH = max + 10;
                 }
             },
+            errorFn (){
+                let tips = document.getElementById('tips');
+                if (tips){
+                    tips.style.display = 'block';
+                }
+            },
             getData (){
                 let ip = GetQueryString('ip');
                 getServerData({
@@ -139,7 +145,7 @@
                         this.data = res.data;
                         this.calculationH();
                     }else{
-                        // alert(res.status)
+                        this.errorFn()
                     }
                 }) 
             },
@@ -157,7 +163,7 @@
                             this.changeData(res.data);
                             this.getChartsData();
                         }else{
-                            // alert(res.status)
+                            this.errorFn()
                         }
                     })
                 }, 10000)
