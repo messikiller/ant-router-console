@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+        <p id="tips" class="tips" v-if="!data.client">设备未在线</p>
         <div v-if="data.client">
             <div class="center clearfloat">
                 <div class="networkBox">
@@ -201,6 +202,12 @@
 </script>
 
 <style scoped>
+    .tips{
+        text-align: center;
+        padding-top: 30px;
+        color: #fe7c62;
+        display: none;
+    }
     .clearfloat:after{
         display:block;
         clear:both;

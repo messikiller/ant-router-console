@@ -7,7 +7,11 @@ function success (res,cb){
 }
 //请求失败
 function error (text){
-    alert('设备未在线')
+    //alert('设备未在线')
+    let tips = document.getElementById('tips');
+    if (tips){
+        tips.style.display = 'block';
+    }
 }
 
 function post (url,params,cb,noStringify = null){
