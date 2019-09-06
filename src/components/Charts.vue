@@ -216,7 +216,7 @@
                             this.changeData(res.data);
                             this.getData();
                         }else{
-                            alert(res.status)
+                            // alert(res.status)
                         }
                     })
                 }, 3000)

@@ -135,7 +135,7 @@
                         this.data = res.data;
                         this.calculationH();
                     }else{
-                        alert(res.status)
+                        // alert(res.status)
                     }
                 }) 
             }
