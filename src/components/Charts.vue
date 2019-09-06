@@ -41,9 +41,9 @@
                         position: 'end',
                         formatter:function (data){
                             if (data.value > 1000){
-                                return (data.value/(1000)).toFixed(2)+" Mbps";
+                                return (data.value/(1000)).toFixed(2)+" Mbit/s";
                             }else{
-                                return data.value + " Kbps";
+                                return data.value + " Kbit/s";
                             }
                         } 
                     },
@@ -54,9 +54,9 @@
                 label:{
                     formatter: function (data){
                         if (data.value > 1000){
-                            return (data.value/(1000)).toFixed(2)+" Mbps";
+                            return (data.value/(1000)).toFixed(2)+" Mbit/s";
                         }else{
-                                return data.value + " Kbps";
+                                return data.value + " Kbit/s";
                         }
                     }
                 },
@@ -92,9 +92,9 @@
                             let str = null;
                             let _val = params[i].value[1];
                             if (_val > 1000){
-                                str =  (_val/(1000)).toFixed(2)+" Mbps";
+                                str =  (_val/(1000)).toFixed(2)+" Mbit/s";
                             }else{
-                                 str = _val + " Kbps";
+                                 str = _val + " Kbit/s";
                             }
                             relVal += '<br/>' + params[i].seriesName + ' : ' + str;  
                         }  
@@ -105,9 +105,9 @@
                     axisLabel:{
                         formatter: function(value){
                             if (value > 1000){
-                                return (value/(1000)).toFixed(2)+" Mbps";
+                                return (value/(1000)).toFixed(2)+" Mbit/s";
                             }else{
-                                 return value + " Kbps";
+                                 return value + " Kbit/s";
                             }
                         }
                     }
