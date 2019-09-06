@@ -7,7 +7,7 @@ function success (res,cb){
 }
 //请求失败
 function error (text){
-    alert('设备未在线')
+    // alert('设备未在线')
 }
 
 function post (url,params,cb,noStringify = null){
@@ -31,12 +31,12 @@ function get (url,params,cb){
 }
 
 export const getServerData = (params,cb) => {
-    // get('http://localhost:8080/static/json/1.json',params,cb)
+    //get('http://localhost:8080/static/json/1.json',params,cb)
     get('/api/get_route_info.php',params,cb)
 }
 
 export const getChartsData = (params,cb) => {
-    // get('http://localhost:8080/static/json/2.json',params,cb)
+    //get('http://localhost:8080/static/json/2.json',params,cb)
     get('/api/get_eth_info.php',params,cb)
 }
 

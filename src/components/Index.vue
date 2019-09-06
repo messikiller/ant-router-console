@@ -40,7 +40,7 @@
                     </div>
                 </div>
             </div>
-            <div class="wanBox">
+            <div class="wanBox hideScroll">
                 <div class="scollx" ref="wanBoxEl" :style="{width:sx + 'px'}">
                     <div class="item" v-for="(item,index) in data.wans" :key="index" :style="{height:wanBoxMaxH ? wanBoxMaxH + 'px' : 'auto'}">
                         <div class="wrap">
@@ -60,13 +60,13 @@
                 </div>
             </div>
         </div>
-        <Charts/>
-        <!-- <Charts :type="'down'"/> -->
+        <Charts :chartsData="chartsDataUp" :columns="columns" :text="'Upload'"/>
+        <Charts :chartsData="chartsDataDown" :columns="columns" :text="'Download'"/>
     </div>
 </template>
 
 <script>
-    import { getServerData,restartRouting } from '../tools/api'
+    import { getServerData,restartRouting,getChartsData } from '../tools/api'
     import { GetQueryString } from '../tools/utils'
     import Charts from './Charts'
 
@@ -77,7 +77,10 @@
         data () {
             return {
                 data:{},
-                wanBoxMaxH:0
+                wanBoxMaxH:0,
+                chartsDataUp:[],
+                chartsDataDown:[],
+                columns:[],
             }
         },
         computed:{
@@ -138,6 +141,48 @@
                         // alert(res.status)
                     }
                 }) 
+            },
+            getChartsData (){
+                let ip = GetQueryString('ip');
+                setTimeout(()=>{
+                   
+                    getChartsData({
+                        ip
+                    },(res)=>{
+                        if (res.status == 'OK'){
+                            let tmp = new Date(res.data.timestamp * 1000);
+                            //let tmp = new Date();
+                            res.data.timestamp = tmp;
+                            this.changeData(res.data);
+                            this.getChartsData();
+                        }else{
+                            // alert(res.status)
+                        }
+                    })
+                }, 10000)
+            },
+            changeData (data){
+                let time = this.$moment(data.timestamp).format("HH:mm:ss");
+                
+                if (this.columns.length == 0){
+                    for (let key in data.stats){
+                        this.columns.push(key)
+                    }
+                }
+                
+                let uploadObj = {}
+                let downObj = {}
+
+                uploadObj.time = time;
+                downObj.time = time;
+
+                for(let key in data.stats){
+                    uploadObj[key] = data.stats[key].upload;
+                    downObj[key] = data.stats[key].download;
+                }
+
+                this.chartsDataUp.push(uploadObj)
+                this.chartsDataDown.push(downObj)
             }
         },
         created (){
@@ -147,6 +192,7 @@
             }, 20000)
         },
         mounted (){
+            this.getChartsData()
             window.onresize = () => {
                 this.resize()
             }
@@ -256,6 +302,10 @@
         font-weight: bold;
         font-size: 14px;
     }
+
+    .hideScroll::-webkit-scrollbar { width: 0 !important }
+    .hideScroll { -ms-overflow-style: none; }
+    .hideScroll { overflow: -moz-scrollbars-none; }
     
    
     @media all and (max-width: 750px) {

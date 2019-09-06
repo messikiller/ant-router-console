@@ -1,19 +1,21 @@
 <template>
     <div class="container">
         <!-- :data-zoom="dataZoom" -->
-        <p class="title">Upload</p>
-        <div class="buttons">
+        <p class="title">{{text}}</p>
+        <!--<div class="buttons">
             <div @click="choose('all')" class="button" :class="{active:thisType == 'all'}">all</div>
             <div @click="choose(item)" class="button" :class="{active:thisType == item}" v-for="(item,index) in columns" :key="index">{{item}}</div>
-        </div>
-        <ve-line :not-set-unchange="['dataZoom']" :mark-line="markLine" :mark-point="markPoint" :data-zoom="dataZoom" :data="chartDataUp" :settings="chartSettings" :extend="extend" ></ve-line>
-
-        <p class="title">Download</p>
-        <div class="buttons">
-            <div @click="chooseDown('all')" class="button" :class="{active:thisTypeDown == 'all'}">all</div>
-            <div @click="chooseDown(item)" class="button" :class="{active:thisTypeDown == item}" v-for="(item,index) in columnsDown" :key="index">{{item}}</div>
-        </div>
-        <ve-line :not-set-unchange="['dataZoom']" :mark-line="markLine" :mark-point="markPoint" :data-zoom="dataZoom" :data="chartDataDown" :settings="chartSettings" :extend="extend" ></ve-line>
+        </div> -->
+        <ve-line  
+            :not-set-unchange="['dataZoom']" 
+            :mark-line="markLine" 
+            :mark-point="markPoint" 
+            :data-zoom="dataZoom" 
+            :data="chartData" 
+            :settings="chartSettings" 
+            :extend="extend"
+        >
+        </ve-line>
     </div>
 </template>
 
@@ -25,6 +27,7 @@
     import { GetQueryString } from '../tools/utils'
 
     export default {
+        props:['chartsData','columns','text'],
         data () {
             this.markLine = {
                 data: [
@@ -32,20 +35,29 @@
                         name: '平均线',
                         type: 'average'
                     }
-                ],
+                ],    
                 label: {
                     normal: {
-                        position: 'start',
+                        position: 'end',
+                        formatter:function (data){
+                            if (data.value > 1000){
+                                return (data.value/(1000)).toFixed(2)+" Mbps";
+                            }else{
+                                return data.value + " Kbps";
+                            }
+                        } 
                     },
-                    formatter: function (data){
-                        return data.value.toFixed(3);
-                    }
+                    
                 }
             }
             this.markPoint = {
                 label:{
                     formatter: function (data){
-                        return data.value.toFixed(3);
+                        if (data.value > 1000){
+                            return (data.value/(1000)).toFixed(2)+" Mbps";
+                        }else{
+                                return data.value + " Kbps";
+                        }
                     }
                 },
                 data: [
@@ -65,12 +77,39 @@
                 area: true,
                 showDataZoom:true,
                 start: 0,
-                end: 100
+                end: 100,
             }
             this.extend = {
+                grid:{
+                    right: '6%',
+                },
+                tooltip:{
+                    show:true,
+                    formatter:function(params)  
+                    {  
+                        var relVal = params[0].name;  
+                        for (var i = 0, l = params.length; i < l; i++) {  
+                            let str = null;
+                            let _val = params[i].value[1];
+                            if (_val > 1000){
+                                str =  (_val/(1000)).toFixed(2)+" Mbps";
+                            }else{
+                                 str = _val + " Kbps";
+                            }
+                            relVal += '<br/>' + params[i].seriesName + ' : ' + str;  
+                        }  
+                        return relVal;  
+                    } 
+                },
                 yAxis:{
                     axisLabel:{
-                        formatter:'{value}Kbit/s'
+                        formatter: function(value){
+                            if (value > 1000){
+                                return (value/(1000)).toFixed(2)+" Mbps";
+                            }else{
+                                 return value + " Kbps";
+                            }
+                        }
                     }
                 }
             }
@@ -79,155 +118,72 @@
                     type: 'slider',
                     start: 0,
                     end: 100,
-                    
                 }
             ]
             return {
-                lastTime:0,
-                thisTime:0,
-                lastData:{},
-                thisType:'all',
-                thisTypeDown:'all',
-                columns:[],
-                columnsDown:[],
-                dataUp:[],
-                dataDown:[]
+                // thisType:'all',
+                // columns:[],
+                // data:[],
             }
         },
         computed:{
-            chartDataUp (){
+            chartData (){
                 let returnObj = {}
-                if (this.thisType == 'all'){
-                    this.chartSettings.metrics = this.columns
-                    returnObj = {
-                        columns:this.columns,
-                        rows:this.dataUp
-                    }
-                }else{
-                    let arr = []
-                    for (let i = 0; i < this.dataUp.length; i++){
-                        let obj = {}
-                        obj[this.thisType] = this.dataUp[i][this.thisType];
-                        obj.time = this.dataUp[i].time;
-                        arr.push(obj)
-                    }
-                    this.chartSettings.metrics = [ this.thisType ]
-                    returnObj = {
-                        columns:[this.thisType],
-                        rows:arr
-                    }
-                } 
-                if (returnObj.rows.length > 100){
-                    returnObj.rows.shift();
+                this.chartSettings.metrics = this.columns
+                returnObj = {
+                    columns:this.columns,
+                    rows:this.chartsData
                 }
-                return returnObj
-            },
-            chartDataDown (){
-                let returnObj = {}
-                if (this.thisTypeDown == 'all'){
-                    this.chartSettings.metrics = this.columnsDown
-                    returnObj = {
-                        columns:this.columnsDown,
-                        rows:this.dataDown
-                    }
-                }else{
-                    let arr = []
-                    for (let i = 0; i < this.dataDown.length; i++){
-                        let obj = {}
-                        obj[this.thisTypeDown] = this.dataDown[i][this.thisTypeDown];
-                        obj.time = this.dataDown[i].time;
-                        arr.push(obj)
-                    }
-                    this.chartSettings.metrics = [ this.thisTypeDown ]
-                    returnObj =  {
-                        columns:[this.thisTypeDown],
-                        rows:arr
-                    }
-                } 
-                if (returnObj.rows.length > 100){
+                if (returnObj.rows.length > 60){
                     returnObj.rows.shift();
                 }
                 return returnObj
             }
         },
         methods:{
-            choose (type){
-                this.thisType = type;
-            },
-            chooseDown (type){
-                this.thisTypeDown = type;
-            },
-            changeData (data){
-                let time = this.$moment(data.timestamp).format("HH:mm:ss");
-                // this.lastTime = this.thisTime;
-                // this.thisTime = data.timestamp;
-
-                // if (this.lastTime == 0){
-                //     //first
-                //     this.lastData = data.stats;
-                if (this.columns.length == 0){
-                    for (let key in data.stats){
-                        this.columns.push(key)
-                        this.columnsDown.push(key)
-                    }
-                }
+            // changeData (data){
+            //     let time = this.$moment(data.timestamp).format("HH:mm:ss");
                 
-                // }else{
-                //     let s = this.thisTime - this.lastTime
-                //     let _s = parseInt(s/1000);
+            //     if (this.columns.length == 0){
+            //         for (let key in data.stats){
+            //             this.columns.push(key)
+            //         }
+            //     }
+                
+            //     let uploadobj = {}
+            //     uploadobj.time = time;
 
-                let uploadobjup = {}
-                let uploadobjdown = {}
+            //     for(let key in data.stats){
+            //         uploadobj[key] = data.stats[key].upload;
+            //     }
 
-                uploadobjup.time = time;
-                uploadobjdown.time = time;
-
-                for(let key in data.stats){
-                //         let resup = data.stats[key].upload - this.lastData[key].upload;
-                //         let resdown = data.stats[key].download - this.lastData[key].download;
-
-                //         let _resup = resup > 0 ? resup : 0;
-                //         let _resdown = resdown > 0 ? resdown : 0;
-
-                //         let uploadkb_up = _resup / 1024 / 1024;
-                //         let uploadkb_down = _resdown / 1024 / 1024;
-
-                //         let _uploadkb_up = uploadkb_up.toFixed(2);
-                //         let _uploadkb_down = uploadkb_down.toFixed(2);
-
-                    uploadobjup[key] = data.stats[key].upload;
-                    uploadobjdown[key] = data.stats[key].download;
-                }
-                this.dataUp.push(uploadobjup)
-                this.dataDown.push(uploadobjdown)
-                //}
-            },
-            getData (){
-                let ip = GetQueryString('ip');
-                setTimeout(()=>{
+            //     this.data.push(uploadobj)
+            // },
+            // getData (){
+            //     let ip = GetQueryString('ip');
+            //     setTimeout(()=>{
                    
-                    getChartsData({
-                        ip
-                    },(res)=>{
-                        if (res.status == 'OK'){
-                            let tmp = new Date(res.data.timestamp * 1000);
-                            //let tmp = new Date();
-                            res.data.timestamp = tmp;
-                            this.changeData(res.data);
-                            this.getData();
-                        }else{
-                            // alert(res.status)
-                        }
-                    })
-                }, 3000)
-                
-            }
+            //         getChartsData({
+            //             ip
+            //         },(res)=>{
+            //             if (res.status == 'OK'){
+            //                 // let tmp = new Date(res.data.timestamp * 1000);
+            //                 let tmp = new Date();
+            //                 res.data.timestamp = tmp;
+            //                 this.changeData(res.data);
+            //                 this.getData();
+            //             }else{
+            //                 // alert(res.status)
+            //             }
+            //         })
+            //     }, 3000)
+            // }
         },
-        mounted (){
+        //mounted (){
             // YYYY-MM-DD HH:mm:ss
-            this.getData()
-           
-        }
+            //this.getData()
+            
+        //}
     }
 </script>
 
