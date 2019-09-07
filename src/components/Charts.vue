@@ -137,7 +137,7 @@
                 if (returnObj.rows.length > 60){
                     returnObj.rows.shift();
                 }
-                console.log(returnObj)
+                // console.log(returnObj)
                 return returnObj
             }
         },
