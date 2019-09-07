@@ -26,11 +26,16 @@ function post (url,params,cb,noStringify = null){
     });
 }
 
-function get (url,params,cb){
+function get (url,params,cb,errorcb  = false){
     axios.get (url,{headers:{},params:params}).then((res)=>{
         success (res,cb)
     }).catch((err)=>{
-        error (null)  
+        if (errorcb){
+            errorcb()
+        }else{
+            error (null) 
+        }
+
     });
 }
 
@@ -39,9 +44,9 @@ export const getServerData = (params,cb) => {
     get('/api/get_route_info.php',params,cb)
 }
 
-export const getChartsData = (params,cb) => {
+export const getChartsData = (params,cb,errorcb) => {
     //get('http://localhost:8080/static/json/2.json',params,cb)
-    get('/api/get_eth_info.php',params,cb)
+    get('/api/get_eth_info.php',params,cb,errorcb)
 }
 
 export const restartRouting = (params,cb) => {

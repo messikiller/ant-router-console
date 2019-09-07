@@ -149,23 +149,31 @@
                     }
                 }) 
             },
-            getChartsData (){
+            getChartsDataAjx (){
                 let ip = GetQueryString('ip');
+                getChartsData({
+                    ip
+                },(res)=>{
+                    if (res.status == 'OK'){
+                        let tmp = new Date(res.data.timestamp * 1000);
+                        //let tmp = new Date();
+                        res.data.timestamp = tmp;
+                        this.changeData(res.data);
+                        this.getChartsData();
+                    }else{
+                        this.getChartsData();
+                        this.errorFn()
+                    }
+                },()=>{
+                    this.getChartsData();
+                })
+            },
+            getChartsData (){
+                
                 setTimeout(()=>{
                    
-                    getChartsData({
-                        ip
-                    },(res)=>{
-                        if (res.status == 'OK'){
-                            let tmp = new Date(res.data.timestamp * 1000);
-                            //let tmp = new Date();
-                            res.data.timestamp = tmp;
-                            this.changeData(res.data);
-                            this.getChartsData();
-                        }else{
-                            this.errorFn()
-                        }
-                    })
+                    this.getChartsDataAjx()
+                    
                 }, 10000)
             },
             changeData (data){
@@ -199,7 +207,7 @@
             }, 20000)
         },
         mounted (){
-            this.getChartsData()
+            this.getChartsDataAjx()
             window.onresize = () => {
                 this.resize()
             }

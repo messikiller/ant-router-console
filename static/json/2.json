@@ -4,12 +4,12 @@
         "timestamp":1567696282,
         "stats":{
             "eth1":{
-                "upload":2224,
-                "download":3744
+                "upload":111,
+                "download":222
             },
             "usb0":{
-                "upload":100,
-                "download":904
+                "upload":333,
+                "download":444
             }
         }
     }
