@@ -41,7 +41,7 @@
                     </div>
                 </div>
             </div>
-            <div class="wanBox hideScroll">
+            <div class="wanBox">
                 <div class="scollx" ref="wanBoxEl" :style="{width:sx + 'px'}">
                     <div class="item" v-for="(item,index) in data.wans" :key="index" :style="{height:wanBoxMaxH ? wanBoxMaxH + 'px' : 'auto'}">
                         <div class="wrap">
@@ -324,9 +324,9 @@
         font-size: 14px;
     }
 
-    .hideScroll::-webkit-scrollbar { width: 0 !important }
+    /* .hideScroll::-webkit-scrollbar { width: 0 !important }
     .hideScroll { -ms-overflow-style: none; }
-    .hideScroll { overflow: -moz-scrollbars-none; }
+    .hideScroll { overflow: -moz-scrollbars-none; } */
     
    
     @media all and (max-width: 750px) {
