@@ -174,7 +174,7 @@
                    
                     this.getChartsDataAjx()
                     
-                }, 10000)
+                }, 5000)
             },
             changeData (data){
                 let time = this.$moment(data.timestamp).format("HH:mm:ss");

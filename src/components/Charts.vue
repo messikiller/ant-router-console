@@ -9,7 +9,7 @@
         <ve-line  
             :not-set-unchange="['dataZoom']" 
             :mark-line="markLine" 
-            :mark-point="markPoint" 
+            
             :data-zoom="dataZoom" 
             :data="chartData" 
             :settings="chartSettings" 
@@ -20,9 +20,10 @@
 </template>
 
 <script>
+    // :mark-point="markPoint" 
     import 'echarts/lib/component/dataZoom'
     import 'echarts/lib/component/markLine'
-    import 'echarts/lib/component/markPoint'
+    // import 'echarts/lib/component/markPoint'
     import { getChartsData } from '../tools/api'
     import { GetQueryString } from '../tools/utils'
 
@@ -50,27 +51,27 @@
                     
                 }
             }
-            this.markPoint = {
-                label:{
-                    formatter: function (data){
-                        if (data.value > 1000){
-                            return (data.value/(1000)).toFixed(2)+" Mbit/s";
-                        }else{
-                                return data.value + " Kbit/s";
-                        }
-                    }
-                },
-                data: [
-                    {
-                        name: '最大值',
-                        type: 'max'
-                    },
-                    {
-                        name: '最小值',
-                        type: 'min'
-                    }
-                ]
-            }
+            // this.markPoint = {
+            //     label:{
+            //         formatter: function (data){
+            //             if (data.value > 1000){
+            //                 return (data.value/(1000)).toFixed(2)+" Mbit/s";
+            //             }else{
+            //                     return data.value + " Kbit/s";
+            //             }
+            //         }
+            //     },
+            //     data: [
+            //         {
+            //             name: '最大值',
+            //             type: 'max'
+            //         },
+            //         {
+            //             name: '最小值',
+            //             type: 'min'
+            //         }
+            //     ]
+            // }
             this.chartSettings = {
                 metrics: [],
                 dimension: ['time'],
